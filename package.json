@@ -1,0 +1,20 @@
+{
+  "name": "cjp-vue3-components",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@cjp-cli-dev/vue3-components": "workspace:*",
+    "@cjp-cli-dev/vue3-components-theme": "workspace:*",
+    "@cjp-cli-dev/vue3-components-utils": "workspace:*",
+    "typescript": "^5.7.2",
+    "vue": "^3.5.13"
+  }
+}
