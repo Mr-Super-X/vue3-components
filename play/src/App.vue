@@ -1,13 +1,11 @@
 <script setup lang="ts">
-// import CIcon from "@cjp-cli-dev/vue3-components/icon"
-
-// console.log(Icon)
+// https://xicons.org/#/zh-CN
+import { AccessibilitySharp, AddCircle } from "@vicons/ionicons5";
 </script>
 
 <template>
-  测试
-  <c-icon :size="18" color="red">hello</c-icon>
+  <c-icon :size="40" color="red"><AccessibilitySharp /></c-icon>
+  <c-icon :size="40" color="yellow"><AddCircle /></c-icon>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

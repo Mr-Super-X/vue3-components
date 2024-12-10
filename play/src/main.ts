@@ -6,6 +6,7 @@ const app = createApp(App)
 
 // 引入icon组件
 import Icon from "@cjp-cli-dev/vue3-components/icon"
+import "@cjp-cli-dev/vue3-components-theme/src/index.scss"
 
 const plugins = [
   Icon,

@@ -1,7 +1,9 @@
-@use "config" as *;
-@forward "config";
+@use "config" as *; // 引入config.scss所有内容
+@forward "config"; // 导出config.scss变量
 
-// c-icon
+// 生成bem规范，@mixin定义后通过@include使用
+
+// .c-icon {}
 @mixin b($block) {
   $B: $namespace + "-" + $block;
   .#{$B} {
@@ -9,7 +11,7 @@
   }
 }
 
-// c-icon__box
+// .c-icon__box
 @mixin e($element) {
   @at-root {
     #{& + $element-separator + $element} {
@@ -18,7 +20,7 @@
   }
 }
 
-// c-icon--primary
+// .c-icon--primary
 @mixin m($modifier) {
   @at-root {
     #{& + $modifier-separator + $modifier} {
@@ -27,7 +29,7 @@
   }
 }
 
-// c-icon.is-xxx
+// .c-icon.is-xxx
 @mixin when($state) {
   @at-root {
     &.#{$state-prefix + $state} {
