@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // https://xicons.org/#/zh-CN
-import { AccessibilitySharp, AddCircle } from "@vicons/ionicons5";
+import { AccessibilitySharp, AddCircle } from '@vicons/ionicons5'
 </script>
 
 <template>
