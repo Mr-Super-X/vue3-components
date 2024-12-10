@@ -9,6 +9,11 @@
 
 /**
  * 前缀名字 c-button-box__element--modifier
+ * @param prefixName 前缀名
+ * @param blockSuffix 代码块名
+ * @param element 元素名
+ * @param modifier 装饰符名
+ * @returns  说白了 ，就是提供一个函数，用来拼接三个字符串，并用不同的符号进行分隔开来
  */
 function _bem(prefixName: string, blockSuffix: string, element: string, modifier: string) {
   if (blockSuffix) {
@@ -35,7 +40,7 @@ function createBEM(prefixName: string) {
   const em = (element: string = '', modifier: string = '') => element && modifier ? _bem(prefixName, '', element, modifier) : ''
   const bem = (blockSuffix: string = '', element: string = '', modifier: string = '') => blockSuffix && element && modifier ? _bem(prefixName, blockSuffix, element, modifier) : ''
 
-  const is = (name: string, state) => (state ? `is-${name}` : '')
+  const is = (name: string, state: string | boolean) => (state ? `is-${name}` : '')
 
   return {
     b,

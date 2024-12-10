@@ -16,5 +16,8 @@
     "@cjp-cli-dev/vue3-components-utils": "workspace:*",
     "typescript": "^5.7.2",
     "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "unplugin-vue-define-options": "^1.5.2"
   }
 }
