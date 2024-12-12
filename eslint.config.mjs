@@ -6,6 +6,20 @@ import vueTsEslintConfig from '@vue/eslint-config-typescript'
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  {
+    ignores: [
+      'node_modules',
+      'dist',
+      '*.css',
+      '*.jpg',
+      '*.jpeg',
+      '*.png',
+      '*.gif',
+      '*.d.ts',
+      '.commitlintrc.js',
+      '.cz-config.js',
+    ],
+  },
   { files: ['**/*.{js,mjs,cjs,ts,vue}'] },
   { languageOptions: { globals: { ...globals.browser, ...globals.node } } },
   pluginJs.configs.recommended,
