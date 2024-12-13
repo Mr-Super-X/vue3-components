@@ -1,6 +1,12 @@
 <template>
   <div :class="bem.b()">
-    <c-tree-node v-for="node in flattenTree" :key="node.key" :node="node" :data-level="node.level" />
+    <c-tree-node
+      v-for="node in flattenTree"
+      :key="node.key"
+      :node="node"
+      :expended="isExpanded(node)"
+      :data-level="node.level"
+    />
   </div>
 </template>
 
@@ -74,7 +80,6 @@ watch(
   () => props.data,
   (data: TreeOption[]) => {
     treeData.value = createTree(data)
-    console.log('🚀 ~ treeData:', treeData)
   },
   {
     immediate: true,
@@ -125,11 +130,14 @@ const flattenTree = computed(() => {
     }
   }
 
-  console.log(flattenNodes)
-
   // 返回拍平结果集
   return flattenNodes
 })
+
+// 是否展开节点
+function isExpanded(node: TreeNode): boolean {
+  return expandedKeysSet.value.has(node.key)
+}
 </script>
 
 <style scoped></style>

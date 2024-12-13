@@ -50,6 +50,10 @@ export const treeNodeProps = {
     type: Object as PropType<TreeNode>,
     required: true,
   },
+  expended: {
+    type: Boolean,
+    required: true,
+  }
 }
 
 // 通过vue提供的方法提取正确的属性类型 Partial是ts内置的，会自动将当前类型中的属性变为非必填

@@ -1,10 +1,10 @@
 <template>
   <div :class="bem.b()">
-    <div :class="bem.e('content')">
-      <span :class="[bem.e('expend-icon')]">
-        <c-icon size="16" color="blue"><Switcher /></c-icon>
+    <div :class="bem.e('content')" :style="{ paddingLeft: `${node?.level * 16}px` }">
+      <span :class="[bem.e('expend-icon'), { expended: expended && !node?.isLeaf }]">
+        <c-icon size="20" color="blue"><Switcher /></c-icon>
       </span>
-      <span :class="bem.e('label')">{{ node.label }}</span>
+      <span :class="bem.e('label')">{{ node?.label }}</span>
     </div>
   </div>
 </template>
