@@ -56,6 +56,11 @@ export const treeNodeProps = {
   }
 }
 
+// 导出 TreeNode 事件
+export const TreeNodeEmits = {
+  toggle: (node: TreeNode) => node
+}
+
 // 通过vue提供的方法提取正确的属性类型 Partial是ts内置的，会自动将当前类型中的属性变为非必填
 export type TreeProps = Partial<ExtractPropTypes<typeof treeProps>>
 export type TreeNodeProps = Partial<ExtractPropTypes<typeof treeNodeProps>>

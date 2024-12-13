@@ -1,10 +1,12 @@
 <template>
   <div :class="bem.b()">
+    <!-- 动画可以使用内置transition-group组件来完成 -->
     <c-tree-node
       v-for="node in flattenTree"
       :key="node.key"
       :node="node"
       :expended="isExpanded(node)"
+      @toggle="toggleExpand"
       :data-level="node.level"
     />
   </div>
@@ -137,6 +139,26 @@ const flattenTree = computed(() => {
 // 是否展开节点
 function isExpanded(node: TreeNode): boolean {
   return expandedKeysSet.value.has(node.key)
+}
+
+// 折叠功能
+function collapse(node: TreeNode) {
+  expandedKeysSet.value.delete(node.key)
+}
+
+// 展开功能
+function expand(node: TreeNode) {
+  expandedKeysSet.value.add(node.key)
+}
+
+// 切换展开
+function toggleExpand(node: TreeNode) {
+  const expandKeys = expandedKeysSet.value
+  if (expandKeys.has(node.key)) {
+    collapse(node)
+  } else {
+    expand(node)
+  }
 }
 </script>
 

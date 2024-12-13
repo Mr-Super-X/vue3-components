@@ -1,8 +1,10 @@
 @use './mixins/mixins.scss' as *;
 
+// 树容器样式
 @include b(tree) {
 }
 
+// 树选项容器样式
 @include b(tree-node) {
   padding: 5px 10px;
   font-size: 16px;
@@ -18,8 +20,14 @@
     vertical-align: middle;
     transform: rotate(0deg);
     transition: transform 0.3s;
-    &.expended {
+
+    @include m(expended) {
       transform: rotate(90deg);
+    }
+    // 叶子节点透明处理
+    &.is-leaf {
+      fill: transparent;
+      cursor: default;
     }
   }
 }
