@@ -28,7 +28,8 @@ const emits = defineEmits(TreeNodeEmits)
 const props = defineProps(treeNodeProps)
 
 function handleExpand() {
-  emits('toggle', props.node)
+  // 非空断言
+  emits('toggle', props.node!)
 }
 </script>
 

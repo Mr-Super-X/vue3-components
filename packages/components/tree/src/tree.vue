@@ -3,7 +3,8 @@
     <!-- 动画可以使用内置transition-group组件来完成 -->
     <c-tree-node
       v-for="node in flattenTree"
-      :key="node.key"
+      :key="node.nodeKey"
+      :node-key="node.nodeKey"
       :node="node"
       :expended="isExpanded(node)"
       @toggle="toggleExpand"
@@ -54,7 +55,7 @@ function createTree(tree: TreeOption[]): any {
       const children = treeOption.getChildren(node) || []
 
       const treeNode: TreeNode = {
-        key: treeOption.getKey(node),
+        nodeKey: treeOption.getKey(node),
         label: treeOption.getLabel(node),
         children: [], // 默认为空
         rawNode: node,
@@ -122,7 +123,7 @@ const flattenTree = computed(() => {
     } // 边界处理，没有节点则跳出循环
     flattenNodes.push(node)
     // 判断当前节点是否有子级，有的话再进行一次倒序深度遍历
-    if (expandedKeys.has(node.key)) {
+    if (expandedKeys.has(node.nodeKey)) {
       const children = node.children
       if (children) {
         for (let i = children.length - 1; i >= 0; --i) {
@@ -138,23 +139,23 @@ const flattenTree = computed(() => {
 
 // 是否展开节点
 function isExpanded(node: TreeNode): boolean {
-  return expandedKeysSet.value.has(node.key)
+  return expandedKeysSet.value.has(node.nodeKey)
 }
 
 // 折叠功能
 function collapse(node: TreeNode) {
-  expandedKeysSet.value.delete(node.key)
+  expandedKeysSet.value.delete(node.nodeKey)
 }
 
 // 展开功能
 function expand(node: TreeNode) {
-  expandedKeysSet.value.add(node.key)
+  expandedKeysSet.value.add(node.nodeKey)
 }
 
 // 切换展开
 function toggleExpand(node: TreeNode) {
   const expandKeys = expandedKeysSet.value
-  if (expandKeys.has(node.key)) {
+  if (expandKeys.has(node.nodeKey)) {
     collapse(node)
   } else {
     expand(node)

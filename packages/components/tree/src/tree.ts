@@ -5,7 +5,7 @@ export type Key = string | number
 
 export interface TreeOption {
   label?: Key
-  key?: Key
+  nodeKey?: Key
   children?: TreeOption[]
   isLeaf?: boolean // 是否叶子节点
   [key: string]: unknown // 支持任意接口
@@ -31,7 +31,7 @@ export const treeProps = {
   // 自定义key字段
   keyField: {
     type: String,
-    default: 'key',
+    default: 'nodeKey',
   },
   // 自定义children字段
   childrenField: {

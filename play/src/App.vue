@@ -13,7 +13,7 @@ function createData(level = 4, parentKey = ''): any {
     const key = parentKey + level + idx
     return {
       label: createLabel(level),
-      key,
+      nodeKey: key,
       children: createData(level - 1, key),
     }
   })
@@ -44,7 +44,7 @@ const treeData = ref(createData())
 
   <c-tree
     :data="treeData"
-    key-field="key"
+    key-field="nodeKey"
     label-field="label"
     children-field="children"
     :default-expanded-keys="['40', '41']"
