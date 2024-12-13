@@ -23,18 +23,26 @@ export const treeProps = {
     type: Array as PropType<TreeOption[]>,
     default: () => []
   },
+  // 自定义label字段
   labelField: {
     type: String,
     default: 'label'
   },
+  // 自定义key字段
   keyField: {
     type: String,
     default: 'key'
   },
+  // 自定义children字段
   childrenField: {
     type: String,
     default: 'children'
   },
+  // 默认展开的key数组
+  defaultExpandedKeys: {
+    type: Array as PropType<Key[]>,
+    default: () => []
+  }
 } as const;
 
 // 通过vue提供的方法提取正确的属性类型 Partial是ts内置的，会自动将当前类型中的属性变为非必填

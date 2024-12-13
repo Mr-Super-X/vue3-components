@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, CSSProperties, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
 import { treeProps, TreeNode, TreeOption } from './tree'
 
@@ -71,12 +71,58 @@ watch(
   () => props.data,
   (data: TreeOption[]) => {
     treeData.value = createTree(data)
-    console.log(treeData.value)
   },
   {
     immediate: true,
   }
 )
+
+// 将一棵树结构拍平，点击节点还能实现展开操作
+// 默认展开第一层，支持用户自定义展开哪一层
+
+// 需要展开的key有哪些
+const expandedKeysSet = ref(new Set(props.defaultExpandedKeys))
+
+// 拍平tree
+const flattenTree = computed(() => {
+  let flattenNodes: TreeNode[] = [] // 拍平后的结果
+
+  let expandedKeys = expandedKeysSet.value // 要展开的key有哪些
+
+  const nodes = treeData.value || [] // 用户传递的被格式化好的数据节点
+
+  const stack: TreeNode[] = [] // 用于遍历树的栈
+
+  // 深度优先遍历
+
+  // [40, 41]
+  for (let i = nodes.length - 1; i >= 0; --i) {
+    // 从后往前推入节点，好处是数组不会塌陷
+    // 可以用积木来理解，积木的最下层为数组的开始，最上层为数组的末尾
+    // 拆掉积木的最下层则积木塌陷
+    stack.push(nodes[i])
+  }
+  // [41, 40]
+
+  while (stack.length) {
+    const node = stack.pop() // 弹出末尾节点
+    if (!node) continue // 边界处理，没有节点则跳出循环
+    flattenNodes.push(node)
+
+    // 判断当前节点是否有子级，有的话再进行一次倒序深度遍历
+    if (expandedKeys.has(node.key)) {
+      const children = node.children
+      if (children) {
+        for (let i = children.length - 1; i >= 0; --i) {
+          stack.push(node.children[i]) // 从后往前推入节点
+        }
+      }
+    }
+  }
+
+  // 返回拍平结果集
+  return flattenNodes
+})
 </script>
 
 <style scoped></style>

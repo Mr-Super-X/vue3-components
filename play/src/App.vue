@@ -32,7 +32,13 @@ const treeData = ref(createData())
   <c-icon :size="40" color="red"><AccessibilitySharp /></c-icon>
   <c-icon :size="40" color="yellow"><AddCircle /></c-icon>
 
-  <c-tree :data="treeData" key-field="key" label-field="xx" children-field="children"></c-tree>
+  <c-tree
+    :data="treeData"
+    key-field="key"
+    label-field="xx"
+    children-field="children"
+    :default-expanded-keys="['40', '41']"
+  ></c-tree>
 </template>
 
 <style scoped></style>
