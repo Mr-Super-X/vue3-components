@@ -4,7 +4,6 @@
     <c-tree-node
       v-for="node in flattenTree"
       :key="node.nodeKey"
-      :node-key="node.nodeKey"
       :node="node"
       :expended="isExpanded(node)"
       @toggle="toggleExpand"
