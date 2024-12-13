@@ -30,7 +30,7 @@ const props = defineProps(treeProps)
 // 有了props之后，要对用户传入的参数进行格式化
 const treeData = ref<TreeNode[]>([])
 
-// 辅助方法，用于动态获取用户传入的数据
+// 1、实现辅助方法，用于动态获取用户传入的数据
 function createOption(key: string, label: string, children: string) {
   return {
     getKey(node: TreeOption) {
@@ -47,7 +47,7 @@ function createOption(key: string, label: string, children: string) {
 
 const treeOption = createOption(props.keyField, props.labelField, props.childrenField)
 
-// 格式化方法
+// 2、实现格式化方法，将用户传入的数据进行格式化
 function createTree(tree: TreeOption[]): any {
   function traversal(data: TreeOption[], parent: TreeNode | null = null) {
     return data.map(node => {
@@ -94,7 +94,7 @@ watch(
 // 需要展开的key有哪些
 const expandedKeysSet = ref(new Set(props.defaultExpandedKeys))
 
-// 拍平tree
+// 3、拍平树结构，动态计算展开节点，为实现虚拟列表做铺垫
 const flattenTree = computed(() => {
   const flattenNodes: TreeNode[] = [] // 拍平后的结果
 
@@ -151,7 +151,7 @@ function expand(node: TreeNode) {
   expandedKeysSet.value.add(node.nodeKey)
 }
 
-// 切换展开
+// 4、实现点击展开折叠节点功能
 function toggleExpand(node: TreeNode) {
   const expandKeys = expandedKeysSet.value
   if (expandKeys.has(node.nodeKey)) {

@@ -1,6 +1,9 @@
 <template>
   <div :class="bem.b()">
-    <div :class="bem.e('content')" :style="{ paddingLeft: `${node?.level * 16}px` }">
+    <div
+      :class="[bem.e('content'), bem.is('expended', expended && !node?.isLeaf)]"
+      :style="{ paddingLeft: `${defaultNodeLevelPaddingLeft}px` }"
+    >
       <span
         :class="[
           bem.e('expend-icon'),
@@ -19,6 +22,7 @@
 <script setup lang="ts">
 import Switcher from './icon/Switcher'
 import CIcon from '@cjp-cli-dev/vue3-components/icon'
+import { computed } from 'vue'
 import { treeNodeProps, TreeNodeEmits } from './tree'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
 
@@ -31,6 +35,11 @@ function handleExpand() {
   // 非空断言
   emits('toggle', props.node!)
 }
+
+// 根据层级来计算左侧内边距，默认 层级 * 18 px
+const defaultNodeLevelPaddingLeft = computed(() => {
+  return props.node?.level! * 18
+})
 </script>
 
 <style scoped></style>
