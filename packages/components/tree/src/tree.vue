@@ -1,11 +1,14 @@
 <template>
-  <div>Tree111</div>
+  <div :class="bem.b()">
+    <c-tree-node v-for="node in flattenTree" :key="node.key" :node="node" :data-level="node.level" />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
 import { treeProps, TreeNode, TreeOption } from './tree'
+import CTreeNode from './treeNode.vue'
 
 // 需安装：unplugin-vue-define-options
 defineOptions({
@@ -37,7 +40,7 @@ function createOption(key: string, label: string, children: string) {
 const treeOption = createOption(props.keyField, props.labelField, props.childrenField)
 
 // 格式化方法
-function createTree(data: TreeOption[]): any {
+function createTree(tree: TreeOption[]): any {
   function traversal(data: TreeOption[], parent: TreeNode | null = null) {
     return data.map(node => {
       const children = treeOption.getChildren(node) || []
@@ -54,14 +57,14 @@ function createTree(data: TreeOption[]): any {
 
       // 有子级再去递归，将其格式化成treeNode类型
       if (children.length > 0) {
-        node.children = traversal(children, treeNode)
+        treeNode.children = traversal(children, treeNode)
       }
 
       return treeNode
     })
   }
 
-  const result: TreeNode[] = traversal(data)
+  const result: TreeNode[] = traversal(tree)
 
   return result
 }
@@ -71,6 +74,7 @@ watch(
   () => props.data,
   (data: TreeOption[]) => {
     treeData.value = createTree(data)
+    console.log('🚀 ~ treeData:', treeData)
   },
   {
     immediate: true,
@@ -85,9 +89,9 @@ const expandedKeysSet = ref(new Set(props.defaultExpandedKeys))
 
 // 拍平tree
 const flattenTree = computed(() => {
-  let flattenNodes: TreeNode[] = [] // 拍平后的结果
+  const flattenNodes: TreeNode[] = [] // 拍平后的结果
 
-  let expandedKeys = expandedKeysSet.value // 要展开的key有哪些
+  const expandedKeys = expandedKeysSet.value // 要展开的key有哪些
 
   const nodes = treeData.value || [] // 用户传递的被格式化好的数据节点
 
@@ -104,11 +108,12 @@ const flattenTree = computed(() => {
   }
   // [41, 40]
 
-  while (stack.length) {
+  while (stack.length > 0) {
     const node = stack.pop() // 弹出末尾节点
-    if (!node) continue // 边界处理，没有节点则跳出循环
+    if (!node) {
+      continue
+    } // 边界处理，没有节点则跳出循环
     flattenNodes.push(node)
-
     // 判断当前节点是否有子级，有的话再进行一次倒序深度遍历
     if (expandedKeys.has(node.key)) {
       const children = node.children
@@ -119,6 +124,8 @@ const flattenTree = computed(() => {
       }
     }
   }
+
+  console.log(flattenNodes)
 
   // 返回拍平结果集
   return flattenNodes

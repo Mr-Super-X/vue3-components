@@ -4,13 +4,15 @@ import { AccessibilitySharp, AddCircle } from '@vicons/ionicons5'
 import { ref } from 'vue'
 
 function createData(level = 4, parentKey = ''): any {
-  if (!level) return []
+  if (!level) {
+    return []
+  }
 
   const arr = new Array(6 - level).fill(0)
   return arr.map((_, idx: number) => {
     const key = parentKey + level + idx
     return {
-      xx: createLabel(level),
+      label: createLabel(level),
       key,
       children: createData(level - 1, key),
     }
@@ -18,10 +20,18 @@ function createData(level = 4, parentKey = ''): any {
 }
 
 function createLabel(level: number): string {
-  if (level === 4) return '道生一'
-  if (level === 3) return '一生二'
-  if (level === 2) return '二生三'
-  if (level === 1) return '三生万物'
+  if (level === 4) {
+    return '道生一'
+  }
+  if (level === 3) {
+    return '一生二'
+  }
+  if (level === 2) {
+    return '二生三'
+  }
+  if (level === 1) {
+    return '三生万物'
+  }
   return ''
 }
 
@@ -35,7 +45,7 @@ const treeData = ref(createData())
   <c-tree
     :data="treeData"
     key-field="key"
-    label-field="xx"
+    label-field="label"
     children-field="children"
     :default-expanded-keys="['40', '41']"
   ></c-tree>
