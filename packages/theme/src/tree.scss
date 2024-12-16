@@ -22,7 +22,9 @@
     transition: transform 0.3s;
 
     @include m(expended) {
-      transform: rotate(90deg);
+      .icon-switch {
+        transform: rotate(90deg);
+      }
     }
     // 叶子节点透明处理
     &.is-leaf {

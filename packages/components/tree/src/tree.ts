@@ -43,6 +43,11 @@ export const treeProps = {
     type: Array as PropType<Key[]>,
     default: () => [],
   },
+  // 异步加载数据方法
+  onLoad: {
+    type: Function as PropType<(node: TreeOption) => Promise<TreeOption[]>>,
+    default: null,
+  }
 } as const
 
 export const treeNodeProps = {
@@ -52,6 +57,10 @@ export const treeNodeProps = {
   },
   expended: {
     type: Boolean,
+    required: true,
+  },
+  loadingKeys: {
+    type: Object as PropType<Set<Key>>,
     required: true,
   }
 }

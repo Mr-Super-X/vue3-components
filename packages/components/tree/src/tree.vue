@@ -6,6 +6,7 @@
       :key="node.nodeKey"
       :node="node"
       :expended="isExpanded(node)"
+      :loadingKeys="loadingKeysRef"
       @toggle="toggleExpand"
       :data-level="node.level"
     />
@@ -15,7 +16,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
-import { treeProps, TreeNode, TreeOption } from './tree'
+import { treeProps, TreeNode, TreeOption, Key } from './tree'
 import CTreeNode from './treeNode.vue'
 
 // 需安装：unplugin-vue-define-options
@@ -48,7 +49,7 @@ function createOption(key: string, label: string, children: string) {
 const treeOption = createOption(props.keyField, props.labelField, props.childrenField)
 
 // 2、实现格式化方法，将用户传入的数据进行格式化
-function createTree(tree: TreeOption[]): any {
+function createTree(tree: TreeOption[], parent: TreeNode | null = null): any {
   function traversal(data: TreeOption[], parent: TreeNode | null = null) {
     return data.map(node => {
       const children = treeOption.getChildren(node) || []
@@ -72,7 +73,7 @@ function createTree(tree: TreeOption[]): any {
     })
   }
 
-  const result: TreeNode[] = traversal(tree)
+  const result: TreeNode[] = traversal(tree, parent)
 
   return result
 }
@@ -146,15 +147,43 @@ function collapse(node: TreeNode) {
   expandedKeysSet.value.delete(node.nodeKey)
 }
 
+const loadingKeysRef = ref(new Set<Key>())
+
+function triggerLoading(node: TreeNode) {
+  // 不是叶子节点且没有子节点，则需要异步加载
+  if (!node.children.length && !node.isLeaf) {
+    const loadingKeys = loadingKeysRef.value
+    // 如果没有加载过节点才加载
+    if (!loadingKeys.has(node.nodeKey)) {
+      loadingKeys.add(node.nodeKey)
+      const onLoad = props.onLoad
+      // 判断onLoad是否存在，存在则调用
+      if (onLoad) {
+        onLoad(node.rawNode).then(children => {
+          // 修改原来的节点
+          node.rawNode.children = children
+          // 更新自定义节点
+          node.children = createTree(children, node)
+          // 清除状态
+          loadingKeys.delete(node.nodeKey)
+        })
+      }
+    }
+  }
+}
+
 // 展开功能
 function expand(node: TreeNode) {
   expandedKeysSet.value.add(node.nodeKey)
+
+  triggerLoading(node)
 }
 
 // 4、实现点击展开折叠节点功能
 function toggleExpand(node: TreeNode) {
   const expandKeys = expandedKeysSet.value
-  if (expandKeys.has(node.nodeKey)) {
+  // 当前节点已展开且没有正在加载时才折叠
+  if (expandKeys.has(node.nodeKey) && !loadingKeysRef.value.has(node.nodeKey)) {
     collapse(node)
   } else {
     expand(node)
