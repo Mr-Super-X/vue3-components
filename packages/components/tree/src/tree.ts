@@ -1,5 +1,5 @@
 // 这里准备组件相关属性和ts类型
-import { ExtractPropTypes, PropType } from 'vue'
+import { ExtractPropTypes, InjectionKey, PropType, SetupContext } from 'vue'
 
 export type Key = string | number
 
@@ -8,6 +8,7 @@ export interface TreeOption {
   nodeKey?: Key
   children?: TreeOption[]
   isLeaf?: boolean // 是否叶子节点
+  disabled?: boolean // 是否禁用节点
   [key: string]: unknown // 支持任意接口
 }
 
@@ -79,6 +80,13 @@ export const treeNodeProps = {
   },
 }
 
+export const TreeNodeContentProps = {
+  node: {
+    type: Object as PropType<TreeNode>,
+    required: true,
+  }
+}
+
 // 导出 TreeNode 事件
 export const TreeNodeEmits = {
   toggle: (node: TreeNode) => node,
@@ -94,3 +102,12 @@ export const TreeEmits = {
 // 通过vue提供的方法提取正确的属性类型 Partial是ts内置的，会自动将当前类型中的属性变为非必填
 export type TreeProps = Partial<ExtractPropTypes<typeof treeProps>>
 export type TreeNodeProps = Partial<ExtractPropTypes<typeof treeNodeProps>>
+
+
+export interface TreeContext {
+  slots: SetupContext['slots'], // 插槽
+  // emits: SetupContext<typeof TreeEmits>['emit'], // 事件
+}
+
+// 提供出去的属性
+export const TreeInjectionKey: InjectionKey<TreeContext> = Symbol()

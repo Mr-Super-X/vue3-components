@@ -16,9 +16,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, provide, ref, useSlots, watch } from 'vue'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
-import { treeProps, TreeNode, TreeOption, Key, TreeEmits } from './tree'
+import { treeProps, TreeNode, TreeOption, Key, TreeEmits, TreeInjectionKey } from './tree'
 import CTreeNode from './treeNode.vue'
 
 // 需安装：unplugin-vue-define-options
@@ -62,6 +62,7 @@ function createTree(tree: TreeOption[], parent: TreeNode | null = null): any {
         children: [], // 默认为空
         rawNode: node,
         level: parent ? parent.level + 1 : 0, // 层级
+        disabled: !!node.disabled, // 是否禁用
         // 优先使用用户传递的isLeaf属性，否则判断子级是否存在
         isLeaf: node.isLeaf ?? children.length === 0,
       }
@@ -235,6 +236,11 @@ function handleSelect(node: TreeNode) {
 
   emits('update:selectedKeys', keys)
 }
+
+// 透传插槽
+provide(TreeInjectionKey, {
+  slots: useSlots(),
+})
 </script>
 
 <style scoped></style>

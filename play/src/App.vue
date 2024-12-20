@@ -4,21 +4,21 @@ import { Key, TreeOption } from '@cjp-cli-dev/vue3-components/tree'
 import { AccessibilitySharp, AddCircle } from '@vicons/ionicons5'
 import { ref } from 'vue'
 
-// function createData(level = 4, parentKey = ''): any {
-//   if (!level) {
-//     return []
-//   }
+function createData(level = 4, parentKey = ''): any {
+  if (!level) {
+    return []
+  }
 
-//   const arr = new Array(6 - level).fill(0)
-//   return arr.map((_, idx: number) => {
-//     const key = parentKey + level + idx
-//     return {
-//       label: createLabel(level),
-//       nodeKey: key,
-//       children: createData(level - 1, key),
-//     }
-//   })
-// }
+  const arr = new Array(6 - level).fill(0)
+  return arr.map((_, idx: number) => {
+    const key = parentKey + level + idx
+    return {
+      label: createLabel(level),
+      nodeKey: key,
+      children: createData(level - 1, key),
+    }
+  })
+}
 
 function createLabel(level: number): string {
   if (level === 4) {
@@ -36,32 +36,31 @@ function createLabel(level: number): string {
   return ''
 }
 
-function createData() {
-  return [
-    {
-      label: nextLabel(),
-      nodeKey: 1,
-      isLeaf: false, // 动态加载子节点
-    },
-    {
-      label: nextLabel(),
-      nodeKey: 2,
-      isLeaf: false,
-    },
-  ]
-}
+// 测试异步加载
+// function createData() {
+//   return [
+//     {
+//       label: nextLabel(),
+//       nodeKey: 1,
+//       isLeaf: false, // 动态加载子节点
+//     },
+//     {
+//       label: nextLabel(),
+//       nodeKey: 2,
+//       isLeaf: false,
+//     },
+//   ]
+// }
 
-function nextLabel(currentLabel?: string): string {
-  if (!currentLabel) return 'Out of Tao，One is born'
-  if (currentLabel === 'Out of Tao，One is born') return 'Out of One，Two'
-  if (currentLabel === 'Out of One，Two') return 'Out of Two，Three'
-  if (currentLabel === 'Out of Two，Three') return 'Out of Three，the created universe'
-  if (currentLabel === 'Out of Three，the created universe') return 'Out of Tao，One is born'
+// function nextLabel(currentLabel?: string): string {
+//   if (!currentLabel) return 'Out of Tao，One is born'
+//   if (currentLabel === 'Out of Tao，One is born') return 'Out of One，Two'
+//   if (currentLabel === 'Out of One，Two') return 'Out of Two，Three'
+//   if (currentLabel === 'Out of Two，Three') return 'Out of Three，the created universe'
+//   if (currentLabel === 'Out of Three，the created universe') return 'Out of Tao，One is born'
 
-  return ''
-}
-
-const treeData = ref(createData())
+//   return ''
+// }
 
 const handleLoad = (node: TreeOption) => {
   return new Promise<TreeOption[]>((resolve, reject) => {
@@ -78,6 +77,37 @@ const handleLoad = (node: TreeOption) => {
   })
 }
 
+const treeData = ref(createData())
+
+// 测试禁用数据
+// const treeData = ref<TreeOption[]>([
+//   {
+//     nodeKey: '0',
+//     label: '0',
+//     children: [
+//       {
+//         nodeKey: '0-0',
+//         label: '0-0',
+//       },
+//       {
+//         disabled: true, // 禁用节点
+//         nodeKey: '0-1',
+//         label: '0-1',
+//         children: [
+//           {
+//             nodeKey: '0-1-0',
+//             label: '0-1-0',
+//           },
+//           {
+//             nodeKey: '0-1-1',
+//             label: '0-1-1',
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ])
+
 const value = ref<Key[]>([])
 </script>
 
@@ -85,7 +115,13 @@ const value = ref<Key[]>([])
   <c-icon :size="40" color="red"><AccessibilitySharp /></c-icon>
   <c-icon :size="40" color="yellow"><AddCircle /></c-icon>
 
-  <c-tree v-model:selected-keys="value" selectable multiple :data="treeData" :on-load="handleLoad"></c-tree>
+  <c-tree v-model:selected-keys="value" selectable multiple :data="treeData" :on-load="handleLoad">
+    <template #default="{ node }">
+      {{ node.nodeKey }}
+      -
+      {{ node.label }}
+    </template>
+  </c-tree>
 </template>
 
 <style scoped></style>

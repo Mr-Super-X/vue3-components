@@ -39,6 +39,16 @@
     background-color: aquamarine;
   }
 
+  @include when(disabled) {
+    background-color: #eee;
+    cursor: not-allowed;
+    .c-tree-node__label,
+    .c-tree-node__expend-icon {
+      cursor: not-allowed;
+      color: #aaa;
+    }
+  }
+
   @include e(content) {
     display: flex;
     align-items: center;
