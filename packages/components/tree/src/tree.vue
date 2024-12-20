@@ -1,17 +1,20 @@
 <template>
   <div :class="bem.b()">
     <!-- 动画可以使用内置transition-group组件来完成 -->
-    <c-tree-node
-      v-for="node in flattenTree"
-      :key="node.nodeKey"
-      :node="node"
-      :expended="isExpanded(node)"
-      :loadingKeys="loadingKeysRef"
-      :selectedKeys="selectedKeysRef"
-      @toggle="toggleExpand"
-      @select="handleSelect"
-      :data-level="node.level"
-    />
+    <c-virtual-list :items="flattenTree" :remain="8" :size="30">
+      <template #default="{ node }">
+        <c-tree-node
+          :key="node.nodeKey"
+          :node="node"
+          :expended="isExpanded(node)"
+          :loadingKeys="loadingKeysRef"
+          :selectedKeys="selectedKeysRef"
+          @toggle="toggleExpand"
+          @select="handleSelect"
+          :data-level="node.level"
+        />
+      </template>
+    </c-virtual-list>
   </div>
 </template>
 
@@ -20,6 +23,7 @@ import { computed, provide, ref, useSlots, watch } from 'vue'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
 import { treeProps, TreeNode, TreeOption, Key, TreeEmits, TreeInjectionKey } from './tree'
 import CTreeNode from './treeNode.vue'
+import CVirtualList from '@cjp-cli-dev/vue3-components/virtual-list'
 
 // 需安装：unplugin-vue-define-options
 defineOptions({

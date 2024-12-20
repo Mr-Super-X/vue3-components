@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
-
     "module": "ESNext", // 打包模块类型ESNext
     "declaration": false, // 默认不要声明文件
     "noImplicitAny": true, // 支持类型不标注默认any
@@ -9,6 +8,7 @@
     "moduleResolution": "node", // 按照node模块来解析
     "esModuleInterop": true, // 支持es6、commonjs模块
     "jsx": "preserve", // 不转换jsx
+    "jsxImportSource": "vue", // 获得vue中的jsx类型推导
     "noLib": false, // 不处理类库
     "target": "ES6", // 编译为ES6
     "sourceMap": true, // 生成sourceMap

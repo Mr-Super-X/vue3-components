@@ -9,7 +9,7 @@ function createData(level = 4, parentKey = ''): any {
     return []
   }
 
-  const arr = new Array(6 - level).fill(0)
+  const arr = new Array(20 - level).fill(0)
   return arr.map((_, idx: number) => {
     const key = parentKey + level + idx
     return {
