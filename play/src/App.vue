@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // https://xicons.org/#/zh-CN
-import { TreeOption } from '@cjp-cli-dev/vue3-components/tree'
+import { Key, TreeOption } from '@cjp-cli-dev/vue3-components/tree'
 import { AccessibilitySharp, AddCircle } from '@vicons/ionicons5'
 import { ref } from 'vue'
 
@@ -77,13 +77,15 @@ const handleLoad = (node: TreeOption) => {
     }, 1000)
   })
 }
+
+const value = ref<Key[]>([])
 </script>
 
 <template>
   <c-icon :size="40" color="red"><AccessibilitySharp /></c-icon>
   <c-icon :size="40" color="yellow"><AddCircle /></c-icon>
 
-  <c-tree :data="treeData" :on-load="handleLoad"></c-tree>
+  <c-tree v-model:selected-keys="value" selectable multiple :data="treeData" :on-load="handleLoad"></c-tree>
 </template>
 
 <style scoped></style>

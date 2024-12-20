@@ -7,7 +7,9 @@
       :node="node"
       :expended="isExpanded(node)"
       :loadingKeys="loadingKeysRef"
+      :selectedKeys="selectedKeysRef"
       @toggle="toggleExpand"
+      @select="handleSelect"
       :data-level="node.level"
     />
   </div>
@@ -16,7 +18,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
-import { treeProps, TreeNode, TreeOption, Key } from './tree'
+import { treeProps, TreeNode, TreeOption, Key, TreeEmits } from './tree'
 import CTreeNode from './treeNode.vue'
 
 // 需安装：unplugin-vue-define-options
@@ -188,6 +190,50 @@ function toggleExpand(node: TreeNode) {
   } else {
     expand(node)
   }
+}
+
+// 5、实现选中节点
+const emits = defineEmits(TreeEmits)
+
+const selectedKeysRef = ref<Key[]>([])
+
+watch(
+  () => props.selectedKeys,
+  value => {
+    if (value) {
+      selectedKeysRef.value = value
+    }
+  },
+  {
+    immediate: true,
+  }
+)
+
+// 处理选中节点
+function handleSelect(node: TreeNode) {
+  // 拷贝数组
+  let keys = Array.from(selectedKeysRef.value)
+
+  if (!props.selectable) return // 不能选择无需继续
+
+  // 处理多选和单选
+  if (props.multiple) {
+    const idx = keys.findIndex(key => key === node.nodeKey)
+    // 存在删除，不存在推入
+    if (idx === -1) {
+      keys.push(node.nodeKey)
+    } else {
+      keys.splice(idx, 1)
+    }
+  } else {
+    if (keys.includes(node.nodeKey)) {
+      keys = []
+    } else {
+      keys = [node.nodeKey]
+    }
+  }
+
+  emits('update:selectedKeys', keys)
 }
 </script>
 

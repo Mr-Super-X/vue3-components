@@ -1,5 +1,5 @@
 <template>
-  <div :class="bem.b()">
+  <div :class="[bem.b(), bem.is('selected', isSelected)]">
     <div
       :class="[bem.e('content'), bem.is('expended', expended && !node?.isLeaf)]"
       :style="{ paddingLeft: `${defaultNodeLevelPaddingLeft}px` }"
@@ -17,7 +17,7 @@
         <Switcher class="icon-switch" v-if="!isLoading" />
         <Loading class="icon-loading" v-else />
       </c-icon>
-      <span :class="bem.e('label')">{{ node?.label }}</span>
+      <span :class="bem.e('label')" @click="handleSelected">{{ node?.label }}</span>
     </div>
   </div>
 </template>
@@ -49,6 +49,15 @@ const defaultNodeLevelPaddingLeft = computed(() => {
 const isLoading = computed(() => {
   return props.loadingKeys?.has(props.node?.nodeKey!)
 })
+
+// 是否选中
+const isSelected = computed(() => {
+  return props.selectedKeys?.includes(props.node?.nodeKey!)
+})
+
+function handleSelected() {
+  emits('select', props.node!)
+}
 </script>
 
 <style scoped></style>

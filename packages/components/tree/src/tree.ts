@@ -43,6 +43,17 @@ export const treeProps = {
     type: Array as PropType<Key[]>,
     default: () => [],
   },
+  selectedKeys: { // 选中节点集合
+    type: Array as PropType<Key[]>,
+  },
+  selectable: { // 是否可以选中节点，默认true
+    type: Boolean,
+    default: true,
+  },
+  multiple: { // 是否可以多选节点，默认false
+    type: Boolean,
+    default: false,
+  },
   // 异步加载数据方法
   onLoad: {
     type: Function as PropType<(node: TreeOption) => Promise<TreeOption[]>>,
@@ -51,7 +62,7 @@ export const treeProps = {
 } as const
 
 export const treeNodeProps = {
-  node: {
+  node: { // 节点
     type: Object as PropType<TreeNode>,
     required: true,
   },
@@ -62,12 +73,22 @@ export const treeNodeProps = {
   loadingKeys: {
     type: Object as PropType<Set<Key>>,
     required: true,
-  }
+  },
+  selectedKeys: { // 选中节点集合
+    type: Array as PropType<Key[]>,
+  },
 }
 
 // 导出 TreeNode 事件
 export const TreeNodeEmits = {
-  toggle: (node: TreeNode) => node
+  toggle: (node: TreeNode) => node,
+  select: (node: TreeNode) => node,
+}
+
+// 导出 tree 事件
+export const TreeEmits = {
+  // 同步响应式属性 selectedKeys
+  'update:selectedKeys': (keys: Key[]) => keys
 }
 
 // 通过vue提供的方法提取正确的属性类型 Partial是ts内置的，会自动将当前类型中的属性变为非必填
