@@ -33,9 +33,20 @@ export default defineComponent({
       end: props.remain,
     })
 
+    const prev = computed(() => {
+      // 如果前面要补的条数不够，则取最小能补的条数
+      return Math.min(state.start, props.remain)
+    })
+
+    const next = computed(() => {
+      // 如果后面要补的条数不够，则取最小能补的条数
+      return Math.min(props.items.length - state.end, props.remain)
+    })
+
     // 计算显示的数据
     const visibleData = computed(() => {
-      return props.items.slice(state.start, state.end)
+      // 展示3屏，返回前remain和后remain条数据，保证用户在快速滚动时不会白屏
+      return props.items.slice(state.start - prev.value, state.end + next.value)
     })
 
     // 偏移量
@@ -48,7 +59,8 @@ export default defineComponent({
 
       state.start = Math.floor(scrollTop / props.size)
       state.end = state.start + props.remain
-      offset.value = state.start * props.size
+      // 当前位置 - 补充的数量 = 偏移量
+      offset.value = state.start * props.size - props.size * prev.value
     }
 
     // 更新滚动高度函数
