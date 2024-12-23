@@ -7,11 +7,15 @@
           :key="node.nodeKey"
           :node="node"
           :expended="isExpanded(node)"
-          :loadingKeys="loadingKeysRef"
-          :selectedKeys="selectedKeysRef"
+          :loading-keys="loadingKeysRef"
+          :selected-keys="selectedKeysRef"
+          :show-checkbox="showCheckbox"
+          :checked="isChecked(node)"
+          :disabled="isDisabled(node)"
+          :indeterminate="isIndeterminate(node)"
+          :data-level="node.level"
           @toggle="toggleExpand"
           @select="handleSelect"
-          :data-level="node.level"
         />
       </template>
     </c-virtual-list>
@@ -245,6 +249,22 @@ function handleSelect(node: TreeNode) {
 provide(TreeInjectionKey, {
   slots: useSlots(),
 })
+
+const checkedKeysRef = ref(new Set(props.defaultCheckedKeys))
+
+function isChecked(node: TreeNode) {
+  return checkedKeysRef.value.has(node.nodeKey)
+}
+
+function isDisabled(node: TreeNode) {
+  return !!node.disabled
+}
+
+const isIndeterminateRef = ref<Set<Key>>(new Set())
+
+function isIndeterminate(node: TreeNode) {
+  return true
+}
 </script>
 
 <style scoped></style>

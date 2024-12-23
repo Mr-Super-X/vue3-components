@@ -18,8 +18,8 @@ export const checkboxProps = {
 } as const
 
 export const checkboxEmits = {
-  'update:modelValue': (value: boolean | string | number) => true,
-  change: (value: boolean) => true,
+  'update:modelValue': (value: boolean | string | number) => typeof value === 'boolean',
+  change: (value: boolean) => typeof value === 'boolean',
 }
 
 // 导出类型

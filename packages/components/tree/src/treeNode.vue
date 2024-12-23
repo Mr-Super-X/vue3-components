@@ -17,6 +17,14 @@
         <Switcher class="icon-switch" v-if="!isLoading" />
         <Loading class="icon-loading" v-else />
       </c-icon>
+
+      <c-checkbox
+        v-if="showCheckbox"
+        :model-value="checked"
+        :disabled="disabled"
+        :indeterminate="indeterminate"
+      ></c-checkbox>
+
       <span :class="bem.e('label')" @click="handleSelected">
         <c-tree-node-content :node="node">
           <!-- {{ node?.label }} -->
@@ -30,6 +38,7 @@
 import Switcher from './icon/Switcher'
 import Loading from './icon/Loading'
 import CIcon from '@cjp-cli-dev/vue3-components/icon'
+import CCheckbox from '@cjp-cli-dev/vue3-components/checkbox'
 import CTreeNodeContent from './treeNodeContent'
 import { computed } from 'vue'
 import { treeNodeProps, treeNodeEmits } from './tree'

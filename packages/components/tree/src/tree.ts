@@ -55,6 +55,14 @@ export const treeProps = {
     type: Boolean,
     default: false,
   },
+  showCheckbox: { // 是否展示checkbox
+    type: Boolean,
+    default: false,
+  },
+  defaultCheckedKeys: { // 默认勾选的节点集合
+    type: Array as PropType<Key[]>,
+    default: () => [],
+  },
   // 异步加载数据方法
   onLoad: {
     type: Function as PropType<(node: TreeOption) => Promise<TreeOption[]>>,
@@ -67,17 +75,33 @@ export const treeNodeProps = {
     type: Object as PropType<TreeNode>,
     required: true,
   },
-  expended: {
+  expended: { // 是否展开
     type: Boolean,
     required: true,
   },
-  loadingKeys: {
+  loadingKeys: { // 正在加载的节点
     type: Object as PropType<Set<Key>>,
     required: true,
   },
   selectedKeys: { // 选中节点集合
     type: Array as PropType<Key[]>,
   },
+  showCheckbox: { // 是否展示checkbox
+    type: Boolean,
+    default: false,
+  },
+  checked: { // 是否选中
+    type: Boolean,
+    default: false,
+  },
+  disabled: { // 是否禁用
+    type: Boolean,
+    default: false,
+  },
+  indeterminate: { // 是否半选
+    type: Boolean,
+    default: false,
+  }
 }
 
 export const treeNodeContentProps = {

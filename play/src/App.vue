@@ -121,7 +121,14 @@ function onCheckboxChange(val: boolean) {
   <c-icon :size="40" color="red"><AccessibilitySharp /></c-icon>
   <c-icon :size="40" color="yellow"><AddCircle /></c-icon>
 
-  <c-tree v-model:selected-keys="value" selectable multiple :data="treeData" :on-load="handleLoad">
+  <c-tree
+    v-model:selected-keys="value"
+    selectable
+    show-checkbox
+    :default-checked-keys="['40']"
+    :data="treeData"
+    :on-load="handleLoad"
+  >
     <template #default="{ node }">
       {{ node.nodeKey }}
       -
