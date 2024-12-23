@@ -109,6 +109,12 @@ const treeData = ref(createData())
 // ])
 
 const value = ref<Key[]>([])
+
+const checked = ref(true)
+
+function onCheckboxChange(val: boolean) {
+  console.log(val)
+}
 </script>
 
 <template>
@@ -122,6 +128,15 @@ const value = ref<Key[]>([])
       {{ node.label }}
     </template>
   </c-tree>
+
+  {{ checked }}
+  <c-checkbox
+    v-model="checked"
+    label="节点"
+    :disabled="false"
+    :indeterminate="true"
+    @change="onCheckboxChange"
+  ></c-checkbox>
 </template>
 
 <style scoped></style>

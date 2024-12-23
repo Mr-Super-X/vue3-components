@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import { computed, provide, ref, useSlots, watch } from 'vue'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
-import { treeProps, TreeNode, TreeOption, Key, TreeEmits, TreeInjectionKey } from './tree'
+import { treeProps, TreeNode, TreeOption, Key, treeEmits, TreeInjectionKey } from './tree'
 import CTreeNode from './treeNode.vue'
 import CVirtualList from '@cjp-cli-dev/vue3-components/virtual-list'
 
@@ -198,7 +198,7 @@ function toggleExpand(node: TreeNode) {
 }
 
 // 5、实现选中节点
-const emits = defineEmits(TreeEmits)
+const emits = defineEmits(treeEmits)
 
 const selectedKeysRef = ref<Key[]>([])
 

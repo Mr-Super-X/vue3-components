@@ -32,12 +32,12 @@ import Loading from './icon/Loading'
 import CIcon from '@cjp-cli-dev/vue3-components/icon'
 import CTreeNodeContent from './treeNodeContent'
 import { computed } from 'vue'
-import { treeNodeProps, TreeNodeEmits } from './tree'
+import { treeNodeProps, treeNodeEmits } from './tree'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
 
 const bem = createNamespace('tree-node')
 
-const emits = defineEmits(TreeNodeEmits)
+const emits = defineEmits(treeNodeEmits)
 const props = defineProps(treeNodeProps)
 
 function handleExpand() {

@@ -80,7 +80,7 @@ export const treeNodeProps = {
   },
 }
 
-export const TreeNodeContentProps = {
+export const treeNodeContentProps = {
   node: {
     type: Object as PropType<TreeNode>,
     required: true,
@@ -88,13 +88,13 @@ export const TreeNodeContentProps = {
 }
 
 // 导出 TreeNode 事件
-export const TreeNodeEmits = {
+export const treeNodeEmits = {
   toggle: (node: TreeNode) => node,
   select: (node: TreeNode) => node,
 }
 
 // 导出 tree 事件
-export const TreeEmits = {
+export const treeEmits = {
   // 同步响应式属性 selectedKeys
   'update:selectedKeys': (keys: Key[]) => keys
 }
@@ -106,7 +106,7 @@ export type TreeNodeProps = Partial<ExtractPropTypes<typeof treeNodeProps>>
 
 export interface TreeContext {
   slots: SetupContext['slots'], // 插槽
-  // emits: SetupContext<typeof TreeEmits>['emit'], // 事件
+  // emits: SetupContext<typeof treeEmits>['emit'], // 事件
 }
 
 // 提供出去的属性
