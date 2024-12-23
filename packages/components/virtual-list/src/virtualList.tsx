@@ -89,7 +89,7 @@ export default defineComponent({
           <div class={bem.e('scroll-bar')} ref={scrollBarRef}></div>
           {/* 更新列表显示内容，永远只展示props.remain条数据 */}
           <div class={bem.e('scroll-list')} style={{ transform: `translate3d(0, ${offset.value}px, 0)` }}>
-            {visibleData.value.map((node, idx) => slots.default!({ node }))}
+            {visibleData.value.map((node, idx) => slots.default!({ node, idx }))}
           </div>
         </div>
       )
