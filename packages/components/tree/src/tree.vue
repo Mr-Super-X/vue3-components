@@ -16,6 +16,7 @@
           :data-level="node.level"
           @toggle="toggleExpand"
           @select="handleSelect"
+          @check="handleCheck"
         />
       </template>
     </c-virtual-list>
@@ -23,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, provide, ref, useSlots, watch } from 'vue'
+import { computed, onMounted, provide, ref, useSlots, watch } from 'vue'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
 import { treeProps, TreeNode, TreeOption, Key, treeEmits, TreeInjectionKey } from './tree'
 import CTreeNode from './treeNode.vue'
@@ -73,6 +74,7 @@ function createTree(tree: TreeOption[], parent: TreeNode | null = null): any {
         disabled: !!node.disabled, // 是否禁用
         // 优先使用用户传递的isLeaf属性，否则判断子级是否存在
         isLeaf: node.isLeaf ?? children.length === 0,
+        parentKey: parent?.nodeKey, // 父节点key
       }
 
       // 有子级再去递归，将其格式化成treeNode类型
@@ -260,11 +262,106 @@ function isDisabled(node: TreeNode) {
   return !!node.disabled
 }
 
-const isIndeterminateRef = ref<Set<Key>>(new Set())
+const indeterminateKeysRef = ref<Set<Key>>(new Set())
 
 function isIndeterminate(node: TreeNode) {
-  return true
+  return indeterminateKeysRef.value.has(node.nodeKey)
 }
+
+// 从父节点开始更新子节点（从外到内）
+function toggleCheck(node: TreeNode, checked: boolean) {
+  // 处理node不存在时的边界情况
+  if (!node) return
+
+  const checkedKeys = checkedKeysRef.value
+
+  // 已经选中时，去除半选状态
+  if (checked) {
+    indeterminateKeysRef.value.delete(node.nodeKey)
+  }
+
+  // 选中就添加，不选中就删除
+  checkedKeys[checked ? 'add' : 'delete'](node.nodeKey)
+
+  // 子节点状态联动
+  const children = node.children
+  if (children) {
+    children.forEach(childNode => {
+      // 子节点处在非禁用状态时选中
+      if (!childNode.disabled) {
+        toggleCheck(childNode, checked)
+      }
+    })
+  }
+}
+
+function findNode(key: Key) {
+  return flattenTree.value.find(node => node.nodeKey === key)
+}
+
+// 从子节点开始更新父节点（从内到外）
+function updateCheckedKeys(node: TreeNode) {
+  // 当前节点存在父节点才需要更新
+  if (node.parentKey) {
+    const parentNode = findNode(node.parentKey)
+
+    // 处理parentNode不存在的边界情况
+    if (!parentNode) return
+
+    let allChecked = true // 默认全选子节点
+    let hasChecked = false // 子节点有没有选中
+
+    const nodes = parentNode?.children || []
+
+    // 遍历子节点，处理全选状态，一共分三种情况
+    // 1. 子节点被选中
+    // 2. 子节点有半选
+    // 3. 子节点没有被选中
+    for (let n of nodes) {
+      if (checkedKeysRef.value.has(n.nodeKey)) {
+        hasChecked = true // 子节点被选中了
+      } else if (indeterminateKeysRef.value.has(n.nodeKey)) {
+        allChecked = false // 有半选的子节点则全选状态为false
+        hasChecked = true
+      } else {
+        allChecked = false // 子节点没有被选中且没有半选，则全选状态为false
+      }
+    }
+
+    if (allChecked) {
+      // 如果全选状态为true，则将父节点的key添加到checkedKeysRef
+      // 并去除父节点的半选状态
+      checkedKeysRef.value.add(parentNode.nodeKey)
+      indeterminateKeysRef.value.delete(parentNode.nodeKey)
+    } else if (hasChecked) {
+      // 如果有子节点被选中（包含半选，因为当前子节点可能还有子节点），则去除父节点选中状态
+      // 并为父节点添加半选状态
+      checkedKeysRef.value.delete(parentNode.nodeKey)
+      indeterminateKeysRef.value.add(parentNode.nodeKey)
+    } else {
+      // 如果全选状态为false且没有选中的子节点（包含半选），则去除父节点选中和半选状态
+      checkedKeysRef.value.delete(parentNode.nodeKey)
+      indeterminateKeysRef.value.delete(parentNode.nodeKey)
+    }
+
+    // 节点自己的状态更新完了再去更新父节点状态，调用递归处理
+    updateCheckedKeys(parentNode)
+  }
+}
+
+// 当复选框被点击的时候触发事件
+function handleCheck(node: TreeNode, checked: boolean) {
+  // 触发更新，点击父节点时向下选中所有子节点，点击子节点时向上更新父节点
+  toggleCheck(node, checked)
+  updateCheckedKeys(node)
+}
+
+onMounted(() => {
+  // 组件加载完后初始执行选中key操作
+  checkedKeysRef.value.forEach((key: Key) => {
+    toggleCheck(findNode(key) as TreeNode, true)
+  })
+})
 </script>
 
 <style scoped></style>

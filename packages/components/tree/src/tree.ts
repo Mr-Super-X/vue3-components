@@ -17,6 +17,7 @@ export interface TreeNode extends Required<TreeOption> {
   level: number // 继承的基础上新增level属性
   children: TreeNode[] // 修改children的类型
   rawNode: TreeOption // 原来的属性也拿到
+  parentKey: Key | undefined // 父节点的key是什么
 }
 
 export const treeProps = {
@@ -115,6 +116,7 @@ export const treeNodeContentProps = {
 export const treeNodeEmits = {
   toggle: (node: TreeNode) => node,
   select: (node: TreeNode) => node,
+  check: (node: TreeNode, value: boolean) => typeof value === 'boolean',
 }
 
 // 导出 tree 事件

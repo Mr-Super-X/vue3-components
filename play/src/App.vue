@@ -125,7 +125,7 @@ function onCheckboxChange(val: boolean) {
     v-model:selected-keys="value"
     selectable
     show-checkbox
-    :default-checked-keys="['40']"
+    :default-checked-keys="['40', '41']"
     :data="treeData"
     :on-load="handleLoad"
   >

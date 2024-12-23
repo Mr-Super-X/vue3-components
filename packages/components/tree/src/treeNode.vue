@@ -23,6 +23,7 @@
         :model-value="checked"
         :disabled="disabled"
         :indeterminate="indeterminate"
+        @change="handleCheckedChange"
       ></c-checkbox>
 
       <span :class="bem.e('label')" @click="handleSelected">
@@ -41,7 +42,7 @@ import CIcon from '@cjp-cli-dev/vue3-components/icon'
 import CCheckbox from '@cjp-cli-dev/vue3-components/checkbox'
 import CTreeNodeContent from './treeNodeContent'
 import { computed } from 'vue'
-import { treeNodeProps, treeNodeEmits } from './tree'
+import { treeNodeProps, treeNodeEmits, TreeNode } from './tree'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
 
 const bem = createNamespace('tree-node')
@@ -74,6 +75,11 @@ function handleSelected() {
   if (props.node?.disabled) return
 
   emits('select', props.node!)
+}
+
+// checkbox改变事件
+function handleCheckedChange(val: boolean) {
+  emits('check', props.node as TreeNode, val)
 }
 </script>
 
