@@ -36,8 +36,8 @@
 </template>
 
 <script setup lang="ts">
-import Switcher from './icon/Switcher'
-import Loading from './icon/Loading'
+import Switcher from '@cjp-cli-dev/vue3-components/internal-icon/Switcher'
+import Loading from '@cjp-cli-dev/vue3-components/internal-icon/Loading'
 import CIcon from '@cjp-cli-dev/vue3-components/icon'
 import CCheckbox from '@cjp-cli-dev/vue3-components/checkbox'
 import CTreeNodeContent from './treeNodeContent'

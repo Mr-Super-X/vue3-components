@@ -10,14 +10,14 @@
 /**
  * 前缀名字 c-button-box__element--modifier
  * @param prefixName 前缀名
- * @param blockSuffix 代码块名
+ * @param block 代码块名
  * @param element 元素名
  * @param modifier 装饰符名
  * @returns  说白了 ，就是提供一个函数，用来拼接三个字符串，并用不同的符号进行分隔开来
  */
-function _bem(prefixName: string, blockSuffix: string, element: string, modifier: string) {
-  if (blockSuffix) {
-    prefixName += `-${blockSuffix}`
+function _bem(prefixName: string, block: string, element: string, modifier: string) {
+  if (block) {
+    prefixName += `-${block}`
   }
   if (element) {
     prefixName += `__${element}`
@@ -30,15 +30,15 @@ function _bem(prefixName: string, blockSuffix: string, element: string, modifier
 }
 
 function createBEM(prefixName: string) {
-  const b = (blockSuffix: string = '') => _bem(prefixName, blockSuffix, '', '')
+  const b = (block: string = '') => _bem(prefixName, block, '', '')
   const e = (element: string = '') => element ? _bem(prefixName, '', element, '') : ''
   const m = (modifier: string = '') => modifier ? _bem(prefixName, '', '', modifier) : ''
 
 
-  const be = (blockSuffix: string = '', element: string = '') => blockSuffix && element ? _bem(prefixName, blockSuffix, element, '') : ''
-  const bm = (blockSuffix: string = '', modifier: string = '') => blockSuffix && modifier ? _bem(prefixName, blockSuffix, '', modifier) : ''
+  const be = (block: string = '', element: string = '') => block && element ? _bem(prefixName, block, element, '') : ''
+  const bm = (block: string = '', modifier: string = '') => block && modifier ? _bem(prefixName, block, '', modifier) : ''
   const em = (element: string = '', modifier: string = '') => element && modifier ? _bem(prefixName, '', element, modifier) : ''
-  const bem = (blockSuffix: string = '', element: string = '', modifier: string = '') => blockSuffix && element && modifier ? _bem(prefixName, blockSuffix, element, modifier) : ''
+  const bem = (block: string = '', element: string = '', modifier: string = '') => block && element && modifier ? _bem(prefixName, block, element, modifier) : ''
 
   const is = (name: string, state: string | boolean) => (state ? `is-${name}` : '')
 

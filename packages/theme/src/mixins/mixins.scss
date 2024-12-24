@@ -1,11 +1,11 @@
-@use "config" as *; // 引入config.scss所有内容
-@forward "config"; // 导出config.scss变量
+@use 'config' as *; // 引入config.scss所有内容
+@forward 'config'; // 导出config.scss变量
 
 // 生成bem规范，@mixin定义后通过@include使用
 
 // .c-icon {}
 @mixin b($block) {
-  $B: $namespace + "-" + $block;
+  $B: $namespace + '-' + $block;
   .#{$B} {
     @content;
   }
@@ -36,4 +36,11 @@
       @content;
     }
   }
+}
+
+// button mixin
+@mixin button-variant($color, $background-color, $border-color) {
+  color: $color;
+  background-color: $background-color;
+  border-color: $border-color;
 }

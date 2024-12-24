@@ -115,6 +115,10 @@ const checked = ref(true)
 function onCheckboxChange(val: boolean) {
   console.log(val)
 }
+
+const handleClick = () => {
+  console.log(123)
+}
 </script>
 
 <template>
@@ -144,6 +148,15 @@ function onCheckboxChange(val: boolean) {
     :indeterminate="true"
     @change="onCheckboxChange"
   ></c-checkbox>
+
+  <br />
+
+  <c-button @click="handleClick" size="medium" loading round type="danger">
+    <template #icon>
+      <c-icon :size="20" color="yellow"><AddCircle /></c-icon>
+    </template>
+    按钮
+  </c-button>
 </template>
 
 <style scoped></style>

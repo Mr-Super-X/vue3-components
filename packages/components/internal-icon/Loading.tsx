@@ -12,8 +12,8 @@ export default defineComponent({
         x="0px"
         y="0px"
         width="24px"
-        height="30px"
-        viewBox="0 0 24 30"
+        height="18px"
+        viewBox="0 0 24 18"
         style="enable-background:new 0 0 50 50;"
         xml:space="preserve"
       >
