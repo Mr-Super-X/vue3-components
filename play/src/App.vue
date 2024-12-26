@@ -2,7 +2,7 @@
 // https://xicons.org/#/zh-CN
 import { Key, TreeOption } from '@cjp-cli-dev/vue3-components/tree'
 import { AccessibilitySharp, AddCircle } from '@vicons/ionicons5'
-import { ref } from 'vue'
+import { reactive, ref } from 'vue'
 
 function createData(level = 4, parentKey = ''): any {
   if (!level) {
@@ -119,6 +119,16 @@ function onCheckboxChange(val: boolean) {
 const handleClick = () => {
   console.log(123)
 }
+
+const username = ref('hello')
+
+const onInputFocus = (e: Event) => {
+  console.log('🚀 ~ onInputFocus ~ e:', (e.target as HTMLInputElement).value)
+}
+
+const onInputBlur = (e: Event) => {
+  console.log('🚀 ~ onInputBlur ~ e:', (e.target as HTMLInputElement).value)
+}
 </script>
 
 <template>
@@ -157,6 +167,20 @@ const handleClick = () => {
     </template>
     按钮
   </c-button>
+
+  <br />
+
+  <c-input v-model="username" :show-password="true" clearable @focus="onInputFocus" @blur="onInputBlur">
+    <template #prepend>哈哈</template>
+    <template #prefix>
+      <c-icon :size="20"><AddCircle /></c-icon>
+    </template>
+    <!-- <template #suffix>
+      <c-icon :size="20"><AccessibilitySharp /></c-icon>
+    </template> -->
+    <template #append>呵呵</template>
+  </c-input>
+  {{ username }}
 </template>
 
 <style scoped></style>

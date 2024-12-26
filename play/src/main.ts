@@ -14,12 +14,15 @@ import Tree from "@cjp-cli-dev/vue3-components/tree"
 import Checkbox from "@cjp-cli-dev/vue3-components/checkbox"
 // 引入button组件
 import Button from "@cjp-cli-dev/vue3-components/button"
+// 引入input组件
+import Input from "@cjp-cli-dev/vue3-components/input"
 
 const plugins = [
   Icon,
   Tree,
   Checkbox,
-  Button
+  Button,
+  Input,
 ]
 
 plugins.forEach(plugin => app.use(plugin))
