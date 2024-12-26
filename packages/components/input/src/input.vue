@@ -25,12 +25,12 @@
           @blur="handleBlur"
         />
 
-        <c-icon v-if="showPwdVisible" @click="handlePasswordVisible">
+        <c-icon v-if="showPwdVisible" :class="bem.be('group', 'icon-eye')" @click="handlePasswordVisible">
           <!-- 替换实际图标 -->
           <span v-if="passwordVisible">h</span>
           <span v-else>e</span>
         </c-icon>
-        <c-icon v-if="showClearVisible" @click="handleClear">
+        <c-icon v-if="showClearVisible" :class="bem.be('group', 'icon-clear')" @click="handleClear">
           <!-- 替换实际图标 -->
           <span>x</span>
         </c-icon>
