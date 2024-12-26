@@ -18,6 +18,7 @@
     "@cjp-cli-dev/vue3-components": "workspace:*",
     "@cjp-cli-dev/vue3-components-theme": "workspace:*",
     "@cjp-cli-dev/vue3-components-utils": "workspace:*",
+    "async-validator": "^4.2.5",
     "typescript": "^5.7.2",
     "vue": "^3.5.13"
   },

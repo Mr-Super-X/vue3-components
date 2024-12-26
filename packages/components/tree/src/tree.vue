@@ -26,7 +26,7 @@
 <script setup lang="ts">
 import { computed, onMounted, provide, ref, useSlots, watch } from 'vue'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
-import { treeProps, TreeNode, TreeOption, Key, treeEmits, TreeInjectionKey } from './tree'
+import { treeProps, TreeNode, TreeOption, Key, treeEmits, treeInjectionKey } from './tree'
 import CTreeNode from './treeNode.vue'
 import CVirtualList from '@cjp-cli-dev/vue3-components/virtual-list'
 
@@ -225,7 +225,9 @@ function handleSelect(node: TreeNode) {
   // 拷贝数组
   let keys = Array.from(selectedKeysRef.value)
 
-  if (!props.selectable) return // 不能选择无需继续
+  if (!props.selectable) {
+    return
+  } // 不能选择无需继续
 
   // 处理多选和单选
   if (props.multiple) {
@@ -248,7 +250,7 @@ function handleSelect(node: TreeNode) {
 }
 
 // 透传插槽
-provide(TreeInjectionKey, {
+provide(treeInjectionKey, {
   slots: useSlots(),
 })
 
@@ -271,7 +273,9 @@ function isIndeterminate(node: TreeNode) {
 // 从父节点开始更新子节点（从外到内）
 function toggleCheck(node: TreeNode, checked: boolean) {
   // 处理node不存在时的边界情况
-  if (!node) return
+  if (!node) {
+    return
+  }
 
   const checkedKeys = checkedKeysRef.value
 
@@ -306,7 +310,9 @@ function updateCheckedKeys(node: TreeNode) {
     const parentNode = findNode(node.parentKey)
 
     // 处理parentNode不存在的边界情况
-    if (!parentNode) return
+    if (!parentNode) {
+      return
+    }
 
     let allChecked = true // 默认全选子节点
     let hasChecked = false // 子节点有没有选中
@@ -317,7 +323,7 @@ function updateCheckedKeys(node: TreeNode) {
     // 1. 子节点被选中
     // 2. 子节点有半选
     // 3. 子节点没有被选中
-    for (let n of nodes) {
+    for (const n of nodes) {
       if (checkedKeysRef.value.has(n.nodeKey)) {
         hasChecked = true // 子节点被选中了
       } else if (indeterminateKeysRef.value.has(n.nodeKey)) {

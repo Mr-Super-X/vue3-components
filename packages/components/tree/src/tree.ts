@@ -45,22 +45,27 @@ export const treeProps = {
     type: Array as PropType<Key[]>,
     default: () => [],
   },
-  selectedKeys: { // 选中节点集合
+  selectedKeys: {
+    // 选中节点集合
     type: Array as PropType<Key[]>,
   },
-  selectable: { // 是否可以选中节点，默认true
+  selectable: {
+    // 是否可以选中节点，默认true
     type: Boolean,
     default: true,
   },
-  multiple: { // 是否可以多选节点，默认false
+  multiple: {
+    // 是否可以多选节点，默认false
     type: Boolean,
     default: false,
   },
-  showCheckbox: { // 是否展示checkbox
+  showCheckbox: {
+    // 是否展示checkbox
     type: Boolean,
     default: false,
   },
-  defaultCheckedKeys: { // 默认勾选的节点集合
+  defaultCheckedKeys: {
+    // 默认勾选的节点集合
     type: Array as PropType<Key[]>,
     default: () => [],
   },
@@ -68,48 +73,56 @@ export const treeProps = {
   onLoad: {
     type: Function as PropType<(node: TreeOption) => Promise<TreeOption[]>>,
     default: null,
-  }
+  },
 } as const
 
 export const treeNodeProps = {
-  node: { // 节点
+  node: {
+    // 节点
     type: Object as PropType<TreeNode>,
     required: true,
   },
-  expended: { // 是否展开
+  expended: {
+    // 是否展开
     type: Boolean,
     required: true,
   },
-  loadingKeys: { // 正在加载的节点
+  loadingKeys: {
+    // 正在加载的节点
     type: Object as PropType<Set<Key>>,
     required: true,
   },
-  selectedKeys: { // 选中节点集合
+  selectedKeys: {
+    // 选中节点集合
     type: Array as PropType<Key[]>,
   },
-  showCheckbox: { // 是否展示checkbox
+  showCheckbox: {
+    // 是否展示checkbox
     type: Boolean,
     default: false,
   },
-  checked: { // 是否选中
+  checked: {
+    // 是否选中
     type: Boolean,
     default: false,
   },
-  disabled: { // 是否禁用
+  disabled: {
+    // 是否禁用
     type: Boolean,
     default: false,
   },
-  indeterminate: { // 是否半选
+  indeterminate: {
+    // 是否半选
     type: Boolean,
     default: false,
-  }
+  },
 }
 
 export const treeNodeContentProps = {
   node: {
     type: Object as PropType<TreeNode>,
     required: true,
-  }
+  },
 }
 
 // 导出 TreeNode 事件
@@ -122,18 +135,17 @@ export const treeNodeEmits = {
 // 导出 tree 事件
 export const treeEmits = {
   // 同步响应式属性 selectedKeys
-  'update:selectedKeys': (keys: Key[]) => keys
+  'update:selectedKeys': (keys: Key[]) => keys,
 }
 
 // 通过vue提供的方法提取正确的属性类型 Partial是ts内置的，会自动将当前类型中的属性变为非必填
 export type TreeProps = Partial<ExtractPropTypes<typeof treeProps>>
 export type TreeNodeProps = Partial<ExtractPropTypes<typeof treeNodeProps>>
 
-
 export interface TreeContext {
-  slots: SetupContext['slots'], // 插槽
+  slots: SetupContext['slots'] // 插槽
   // emits: SetupContext<typeof treeEmits>['emit'], // 事件
 }
 
 // 提供出去的属性
-export const TreeInjectionKey: InjectionKey<TreeContext> = Symbol()
+export const treeInjectionKey: InjectionKey<TreeContext> = Symbol()

@@ -129,6 +129,11 @@ const onInputFocus = (e: Event) => {
 const onInputBlur = (e: Event) => {
   console.log('🚀 ~ onInputBlur ~ e:', (e.target as HTMLInputElement).value)
 }
+
+const state = reactive({
+  username: '',
+  password: '',
+})
 </script>
 
 <template>
@@ -181,6 +186,21 @@ const onInputBlur = (e: Event) => {
     <template #append>呵呵</template>
   </c-input>
   {{ username }}
+
+  <br />
+
+  <c-form
+    :model="state"
+    :rules="{
+      username: [{ min: 6, max: 10, message: '用户名长度6-10位', trigger: ['blur', 'change'] }],
+    }"
+  >
+    <c-form-item prop="username" label="用户名" :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]">
+      <template #label>用户名：</template>
+      <template #error>自定义错误信息</template>
+      <c-input v-model="state.username" placeholder="请输入用户名"></c-input>
+    </c-form-item>
+  </c-form>
 </template>
 
 <style scoped></style>

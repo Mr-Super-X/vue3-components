@@ -49,13 +49,17 @@
 
 <script setup lang="ts">
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
-import { useAttrs, useSlots, watch, ref, onMounted, nextTick, computed } from 'vue'
+import { useAttrs, useSlots, watch, ref, onMounted, nextTick, computed, inject } from 'vue'
 import { inputEmits, inputProps } from './input'
+import { formItemContextKey } from '@cjp-cli-dev/vue3-components/form'
 
 defineOptions({
   name: 'c-input',
   inheritAttrs: false,
 })
+
+// 拿到form-item组件的上下文
+const formItemContext = inject(formItemContextKey)
 
 const bem = createNamespace('input')
 
@@ -88,7 +92,9 @@ const showClearVisible = computed(() => {
 
 function setNativeInputValue(value: string) {
   const inputEl = inputRef.value
-  if (!inputEl) return
+  if (!inputEl) {
+    return
+  }
 
   inputEl.value = value
 }
@@ -103,6 +109,8 @@ watch(
   () => props.modelValue,
   value => {
     setNativeInputValue(value as string)
+    // input元素值改变时触发form-item组件的validate方法，且trigger类型为change
+    formItemContext?.validate('change')
   }
 )
 
@@ -127,6 +135,8 @@ const handleFocus = (e: Event) => {
 // 触发blur事件
 const handleBlur = (e: Event) => {
   emits('blur', e)
+
+  formItemContext?.validate('blur') // input元素失去焦点时触发form-item组件的validate方法，且trigger类型为blur
 }
 
 // 触发clear事件

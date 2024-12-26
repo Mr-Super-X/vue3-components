@@ -35,7 +35,8 @@ export default [
       curly: ['error', 'all'], // 强制使用花括号的风格
       'linebreak-style': ['off', 'lf'], // 禁用换行符风格的检查，或使用LF作为换行符
       'comma-dangle': ['error', 'always-multiline'], // 要求末尾逗号
-      'no-unused-vars': 'error', // 禁止出现未使用过的变量
+      'no-unused-vars': 'warn', // 禁止出现未使用过的变量
+      '@typescript-eslint/no-unused-vars': 'warn', // 禁止出现未使用过的变量
       'default-case': 'error', // 要求 switch 语句中有 default 分支
       'brace-style': ['error', 'stroustrup', { allowSingleLine: true }], // 大括号风格 ["error", "stroustrup"]
       'no-dupe-keys': 'error', // 对象中不允许出现重复的键
@@ -48,7 +49,7 @@ export default [
       'no-const-assign': 'error', // 禁止修改const声明的变量
       'no-redeclare': 'error', // 禁止重复声明变量
       'no-func-assign': 'error', // 禁止重复的函数声明
-      'no-shadow': 'error', // 外部作用域中的变量不能与它所包含的作用域中的变量或参数同名
+      'no-shadow': 'warn', // 外部作用域中的变量不能与它所包含的作用域中的变量或参数同名
       'space-infix-ops': ['error', { int32Hint: true }], // 操作符周围的空格
       'space-before-function-paren': ['error', { anonymous: 'never', named: 'never', asyncArrow: 'always' }], // 函数定义时括号前的空格
       'space-before-blocks': ['error', 'always'], // 在块语句之前始终有一个空格
