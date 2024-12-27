@@ -217,6 +217,10 @@ const handleSubmit = async () => {
       <c-button @click="handleSubmit" size="medium" type="primary">提交</c-button>
     </c-form-item>
   </c-form>
+
+  <br />
+
+  <c-upload></c-upload>
 </template>
 
 <style scoped></style>

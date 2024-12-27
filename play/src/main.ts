@@ -19,9 +19,12 @@ import Input from '@cjp-cli-dev/vue3-components/input'
 // 引入form组件
 // 引入form-item组件
 import { Form, FormItem } from '@cjp-cli-dev/vue3-components/form'
+// 引入upload组件
+import Upload from '@cjp-cli-dev/vue3-components/upload'
 
-const plugins = [Icon, Tree, Checkbox, Button, Input, Form, FormItem,]
+const plugins = [Icon, Tree, Checkbox, Button, Input, Form, FormItem, Upload]
 
+// 注册全局组件
 plugins.forEach(plugin => app.use(plugin))
 
 app.mount('#app')
