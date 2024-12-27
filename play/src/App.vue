@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // https://xicons.org/#/zh-CN
+import { FormInstance } from '@cjp-cli-dev/vue3-components/form'
 import { Key, TreeOption } from '@cjp-cli-dev/vue3-components/tree'
 import { AccessibilitySharp, AddCircle } from '@vicons/ionicons5'
 import { reactive, ref } from 'vue'
@@ -134,6 +135,14 @@ const state = reactive({
   username: '',
   password: '',
 })
+
+const formRef = ref<FormInstance>()
+
+const handleSubmit = async () => {
+  formRef.value?.validate((valid, errors) => {
+    console.log(valid, errors)
+  })
+}
 </script>
 
 <template>
@@ -190,6 +199,7 @@ const state = reactive({
   <br />
 
   <c-form
+    ref="formRef"
     :model="state"
     :rules="{
       username: [{ min: 6, max: 10, message: '用户名长度6-10位', trigger: ['blur', 'change'] }],
@@ -197,8 +207,14 @@ const state = reactive({
   >
     <c-form-item prop="username" label="用户名" :rules="[{ required: true, message: '请输入用户名', trigger: 'blur' }]">
       <template #label>用户名：</template>
-      <template #error>自定义错误信息</template>
+      <!-- <template #error>自定义错误信息</template> -->
       <c-input v-model="state.username" placeholder="请输入用户名"></c-input>
+    </c-form-item>
+    <c-form-item prop="password" label="用户名" :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]">
+      <template #label>密码：</template>
+      <!-- <template #error>自定义错误信息</template> -->
+      <c-input v-model="state.password" placeholder="请输入密码" type="password"></c-input>
+      <c-button @click="handleSubmit" size="medium" type="primary">提交</c-button>
     </c-form-item>
   </c-form>
 </template>

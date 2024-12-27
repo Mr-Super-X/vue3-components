@@ -13,6 +13,9 @@ export { Form, FormItem }
 export * from './src/form'
 export * from './src/form-item'
 
+// 导出form组件实例的类型，用户可以通过ref<FormInstance>()获得当前组件的属性编辑器提示
+export type FormInstance = InstanceType<typeof Form>
+
 // 给 volar 插件用的，在这里扩展的类型可以在模版中被解析
 // https://marketplace.visualstudio.com/items?itemName=Vue.volar
 declare module 'vue' {

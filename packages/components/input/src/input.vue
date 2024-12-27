@@ -110,7 +110,9 @@ watch(
   value => {
     setNativeInputValue(value as string)
     // input元素值改变时触发form-item组件的validate方法，且trigger类型为change
-    formItemContext?.validate('change')
+    formItemContext?.validate('change').catch(err => {
+      console.warn(`${bem.b()}组件change事件触发表单校验，校验结果：失败，校验信息：`, err.errors)
+    })
   }
 )
 
@@ -136,7 +138,10 @@ const handleFocus = (e: Event) => {
 const handleBlur = (e: Event) => {
   emits('blur', e)
 
-  formItemContext?.validate('blur') // input元素失去焦点时触发form-item组件的validate方法，且trigger类型为blur
+  // input元素失去焦点时触发form-item组件的validate方法，且trigger类型为blur
+  formItemContext?.validate('blur').catch(err => {
+    console.warn(`${bem.b()}组件blur事件触发表单校验，校验结果：失败，校验信息：`, err.errors)
+  })
 }
 
 // 触发clear事件

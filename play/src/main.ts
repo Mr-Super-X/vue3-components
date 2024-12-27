@@ -16,10 +16,11 @@ import Checkbox from '@cjp-cli-dev/vue3-components/checkbox'
 import Button from '@cjp-cli-dev/vue3-components/button'
 // 引入input组件
 import Input from '@cjp-cli-dev/vue3-components/input'
+// 引入form组件
 // 引入form-item组件
-import { FormItem } from '@cjp-cli-dev/vue3-components/form'
+import { Form, FormItem } from '@cjp-cli-dev/vue3-components/form'
 
-const plugins = [Icon, Tree, Checkbox, Button, Input, FormItem]
+const plugins = [Icon, Tree, Checkbox, Button, Input, Form, FormItem,]
 
 plugins.forEach(plugin => app.use(plugin))
 

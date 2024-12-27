@@ -39,7 +39,7 @@ export type FormItemValidateState = (typeof formItemValidateState)[number]
 // 定义formItem组件上下文
 export interface FormItemContext extends FormItemProps {
   // 接收两参数，trigger和callback
-  validate: (trigger: string, callback?: (isValid: boolean) => void) => Promise<void>
+  validate: (trigger: string, callback?: (isValid: boolean) => void) => Promise<any>
 }
 
 // 通过provide/inject跨组件通信
