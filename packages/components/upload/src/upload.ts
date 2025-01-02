@@ -18,7 +18,7 @@ export type UploadRawFile = File & { uid: number }
 // 扩展上传进度类型
 export type UploadProgressEvent = ProgressEvent & { percentage: number }
 // 空函数默认值
-const NOOP = () => { }
+export const NOOP = () => { }
 
 // 提供给用户使用的基本props
 export const baseProps = {
@@ -56,6 +56,10 @@ export const baseProps = {
     type: Object as PropType<Record<string, any>>,
     default: () => ({})
   },
+  drag: { // 是否可拖拽上传
+    type: Boolean,
+    default: false,
+  }
 } as const
 
 // 提供给用户使用的钩子props
@@ -73,7 +77,7 @@ export const hookProps = {
     default: NOOP,
   },
   beforeRemove: { // 文件删除前的钩子
-    type: Function as PropType<(file: UploadFile, uploadFiles: UploadFiles) => void>,
+    type: Function as PropType<(file: UploadFile, uploadFiles: UploadFiles) => Promise<boolean> | boolean>,
     default: NOOP,
   },
   onRemove: { // 文件删除后的钩子
@@ -101,5 +105,17 @@ export const uploadProps = {
 } as const
 
 
+// 组件的emit事件
+export const uploadEmits = {
+  // 同步响应式v-model:file-list
+  'update:file-list': (fileList: UploadFiles) => fileList,
+} as const
+
 // 导出类型
 export type UploadProps = Partial<ExtractPropTypes<typeof uploadProps>>
+// 导出事件
+export type UploadEmits = Partial<ExtractPropTypes<typeof uploadEmits>>
+
+// 生成uid
+let uid = 0
+export const genUid = () => uid++

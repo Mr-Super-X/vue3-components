@@ -1,0 +1,12 @@
+@use './mixins/mixins.scss' as *;
+@use './common/variable.scss' as *;
+
+@include b(upload) {
+  // 默认隐藏input file
+  @include e(input-file) {
+    display: none;
+    visibility: hidden;
+    overflow: hidden;
+    opacity: 0;
+  }
+}

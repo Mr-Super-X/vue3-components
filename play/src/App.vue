@@ -2,6 +2,7 @@
 // https://xicons.org/#/zh-CN
 import { FormInstance } from '@cjp-cli-dev/vue3-components/form'
 import { Key, TreeOption } from '@cjp-cli-dev/vue3-components/tree'
+import { UploadRawFile } from '@cjp-cli-dev/vue3-components/upload'
 import { AccessibilitySharp, AddCircle } from '@vicons/ionicons5'
 import { reactive, ref } from 'vue'
 
@@ -143,6 +144,13 @@ const handleSubmit = async () => {
     console.log(valid, errors)
   })
 }
+
+const handleUpload = () => {}
+
+const onBeforeUpload = (rawFile: UploadRawFile) => {
+  console.log('🚀 ~ onBeforeUpload ~ rawFile:', rawFile)
+  return true
+}
 </script>
 
 <template>
@@ -220,7 +228,10 @@ const handleSubmit = async () => {
 
   <br />
 
-  <c-upload></c-upload>
+  <!-- 进入server项目，启动express服务进行测试 -->
+  <c-upload multiple :before-upload="onBeforeUpload" action="http://localhost:4000/upload" drag>
+    <c-button @click="handleUpload" size="small" type="primary">点击上传</c-button>
+  </c-upload>
 </template>
 
 <style scoped></style>
