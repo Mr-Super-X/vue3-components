@@ -17,7 +17,15 @@ function compile() {
     .pipe(dest('./dist/css')) // 输出到当前目录/dist/css中
 }
 
-function copyFont() {}
+// 拷贝字体文件，如icon-font等
+function copyFont() {
+  return src(path.resolve(__dirname, './src/fonts/**')).pipe(gulpCleanCss()).pipe(dest('./dist/font'))
+}
+
+// 拷贝打包好的dist目录到外层最终输出的 dist/theme 目录中
+function copyFullStyle() {
+  return src(path.resolve(__dirname, './dist/**')).pipe(dest(path.resolve(__dirname, '../../dist/theme')))
+}
 
 // 串行执行任务
-export default series(compile)
+export default series(compile, copyFont, copyFullStyle)
