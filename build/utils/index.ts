@@ -31,3 +31,15 @@ export const run = async (command: string) => {
     app.on('error', reject)
   })
 }
+
+/**
+ * 重写路径
+ * @param format
+ */
+export const pathRewriter = (format) => {
+  return (id: string) => {
+    id = id.replaceAll('@cjp-cli-dev', `cjp-component/${format}`)
+
+    return id
+  }
+}

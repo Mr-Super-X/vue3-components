@@ -2,6 +2,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import vue from 'rollup-plugin-vue'
 import typescript from 'rollup-plugin-typescript2'
+import vueJsx from '@vitejs/plugin-vue-jsx'
 import { parallel } from 'gulp'
 import path from 'path'
 import { cjpComponentsRoot, outDir } from './utils/paths'
@@ -11,7 +12,7 @@ const buildFull = async () => {
   // rollup打包配置
   const config = {
     input: path.resolve(cjpComponentsRoot, 'index.ts'), // 打包入口
-    plugins: [nodeResolve(), typescript(), vue(), commonjs()], // 打包需要用哪些插件，依次调用
+    plugins: [nodeResolve(), commonjs(), vue(), vueJsx(), typescript()], // 打包需要用哪些插件，依次调用
     external: (id: string) => /^vue/.test(id), // 表示打包时排除vue源代码
   }
 

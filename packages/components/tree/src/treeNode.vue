@@ -1,5 +1,5 @@
 <template>
-  <div :class="[bem.b(), bem.is('selected', isSelected), bem.is('disabled', node?.disabled)]">
+  <div :class="[bem.b(), bem.is('selected', !!isSelected), bem.is('disabled', node?.disabled)]">
     <div
       :class="[bem.e('content'), bem.is('expended', expended && !node?.isLeaf)]"
       :style="{ paddingLeft: `${defaultNodeLevelPaddingLeft}px` }"
