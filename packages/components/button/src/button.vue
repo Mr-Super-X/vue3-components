@@ -16,7 +16,7 @@
   >
     <template v-if="iconPlacement === 'left'">
       <c-icon :size="23" v-if="loading">
-        <Loading />
+        <!-- <Loading /> -->
       </c-icon>
       <!-- 用户自定义icon slot -->
       <component v-else :is="slots.icon"></component>
@@ -27,7 +27,7 @@
 
     <template v-if="iconPlacement === 'right'">
       <c-icon :size="23" v-if="loading">
-        <Loading />
+        <!-- <Loading /> -->
       </c-icon>
       <!-- 用户自定义icon slot -->
       <component v-else :is="slots.icon"></component>
@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import CIcon from '@cjp-cli-dev/vue3-components/icon'
-import Loading from '@cjp-cli-dev/vue3-components/internal-icon/Loading'
+// import Loading from '@cjp-cli-dev/vue3-components/internal-icon/Loading'
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
 import { buttonEmits, buttonProps } from './button'
 import { useSlots } from 'vue'

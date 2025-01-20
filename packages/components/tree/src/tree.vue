@@ -60,7 +60,7 @@ function createOption(key: string, label: string, children: string) {
 const treeOption = createOption(props.keyField, props.labelField, props.childrenField)
 
 // 2、实现格式化方法，将用户传入的数据进行格式化
-function createTree(tree: TreeOption[], parent: TreeNode | null = null): any {
+function createTree(tree: TreeOption[], parent: TreeNode | null = null) {
   function traversal(data: TreeOption[], parent: TreeNode | null = null) {
     return data.map(node => {
       const children = treeOption.getChildren(node) || []

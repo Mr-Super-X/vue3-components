@@ -23,7 +23,7 @@ export const buildPackages = (dirPath: string, modelName: string) => {
         return src(inputs)
           .pipe(
             ts.createProject(tsConfig, {
-              declaration: true, // 打包ts需要生成声明配置文件 xxx.d.ts
+              declaration: true, // 打包ts需要生成声明配置文件 xxx.d.ts（获取ts类型检测）
               strict: false, // 关闭严格模式，防止莫名其妙的报错
               module: config.module, // 打包输出的结果 es/commonjs
             })()

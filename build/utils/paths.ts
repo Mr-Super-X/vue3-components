@@ -5,3 +5,6 @@ export const projectRoot = path.resolve(__dirname, '../../')
 
 // 模块输出路径
 export const outDir = path.resolve(__dirname, '../../dist')
+
+// 组件入口路径
+export const cjpComponentsRoot = path.resolve(__dirname, '../../packages/cjp-components')

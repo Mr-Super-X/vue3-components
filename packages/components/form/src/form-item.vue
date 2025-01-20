@@ -33,7 +33,7 @@ import {
 import { FormContext, formContextKey } from './form'
 
 // 注入form上下文
-const formContext: FormContext = inject(formContextKey)
+const formContext: FormContext = inject(formContextKey) as FormContext
 
 defineOptions({
   name: 'c-form-item',
