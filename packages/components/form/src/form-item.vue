@@ -18,6 +18,11 @@
   </div>
 </template>
 
+<!-- 解决ts无法解析并输出声明文件 -->
+<script lang="ts">
+export default {}
+</script>
+
 <script setup lang="ts">
 import AsyncValidator, { Values } from 'async-validator'
 import { computed, inject, onMounted, provide, reactive, ref, toRefs } from 'vue'

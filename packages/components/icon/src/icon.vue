@@ -4,6 +4,10 @@
   </i>
 </template>
 
+<!-- 解决ts无法解析并输出声明文件 -->
+<script lang="ts">
+export default {}
+</script>
 
 <script setup lang="ts">
 import { computed, CSSProperties } from "vue";

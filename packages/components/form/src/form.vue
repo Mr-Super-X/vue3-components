@@ -4,6 +4,11 @@
   </form>
 </template>
 
+<!-- 解决ts无法解析并输出声明文件 -->
+<script lang="ts">
+export default {}
+</script>
+
 <script setup lang="ts">
 import { createNamespace } from '@cjp-cli-dev/vue3-components-utils/create'
 import { FormContext, formContextKey, formProps } from './form'

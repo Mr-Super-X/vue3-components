@@ -6,6 +6,11 @@
   {{ uploadFiles }}
 </template>
 
+<!-- 解决ts无法解析并输出声明文件 -->
+<script lang="ts">
+export default {}
+</script>
+
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { uploadEmits, UploadFile, UploadFiles, uploadProps, UploadRawFile } from './upload'
