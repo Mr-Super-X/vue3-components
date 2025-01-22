@@ -9,10 +9,13 @@ export function httpRequest(options: RequestOptions) {
   // 打开xhr，传入请求方法，请求路径，true表示异步（实现同步请求主要靠改为false）
   xhr.open(method, action, true)
 
-  xhr.upload.addEventListener('progress', e => {
+  xhr.upload.addEventListener('progress', (e: ProgressEvent<XMLHttpRequestEventTarget>) => {
     // 加载进度百分比
-    const processEvents = e as UploadProgressEvent
-    processEvents.percentage = e.total > 0 ? (e.loaded / e.total) * 100 : 0
+    const processEvents: UploadProgressEvent = {
+      ...e,
+      percentage: e.total > 0 ? (e.loaded / e.total) * 100 : 0
+    }
+    // processEvents.percentage = e.total > 0 ? (e.loaded / e.total) * 100 : 0
 
     // 调用上传进度钩子
     onProgress(processEvents)
