@@ -10,7 +10,7 @@ export const buildConfig = {
       path: path.resolve(outDir, 'es'),
     },
     bundle: {
-      path: 'cjp-vue3-components/es', // 转化的路径
+      path: 'cjp-components/es', // 转化的路径
     },
   },
   cjs: {
@@ -21,7 +21,7 @@ export const buildConfig = {
       path: path.resolve(outDir, 'lib'),
     },
     bundle: {
-      path: 'cjp-vue3-components/lib',
+      path: 'cjp-components/lib',
     },
   },
 }

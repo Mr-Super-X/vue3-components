@@ -4,6 +4,13 @@
  */
 import { series, parallel } from 'gulp'
 import { run, withTaskName } from './utils'
+import { genTypes } from './gen-types'
+import { cjpComponentsRoot, outDir } from './utils/paths'
+
+// 拷贝package.json
+const copyPackageJson = () => async () => {
+  await run(`cp ${cjpComponentsRoot}/package.json ${outDir}/package.json`)
+}
 
 /**
  * 静态资源构建步骤
@@ -26,6 +33,12 @@ export default series(
     withTaskName('打包全部组件', async () => run('pnpm run build buildFullComponent')),
     // 任务四，打包单个组件
     withTaskName('打包每个组件', async () => run('pnpm run build buildComponent'))
+  ),
+  parallel(
+    // 为组件库生成.d.ts声明文件
+    genTypes,
+    // 拷贝package.json
+    copyPackageJson()
   )
 )
 

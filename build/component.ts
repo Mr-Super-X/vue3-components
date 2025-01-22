@@ -58,7 +58,7 @@ const genTypes = async () => {
       allowJs: true, // 允许js
       declaration: true, // 要声明文件
       emitDeclarationOnly: true, // 仅抛出声明
-      noEmitOnError: true, // 不抛出错误
+      noEmitOnError: false, // 不抛出错误
       outDir: path.resolve(outDir, 'types'), // 输出目录 dist/types
       baseUrl: projectRoot, // 基础路径
       paths: { // 解析路径
@@ -72,8 +72,8 @@ const genTypes = async () => {
     skipAddingFilesFromTsConfig: true, // 跳过从tsconfig里面添加文件
   })
 
-  // 查找任意目录下的.vue .ts .tsx .js .jsx文件
-  const filePaths = await glob('**/*.{vue,ts,tsx,js,jsx}', {
+  // 查找任意目录下的任意文件
+  const filePaths = await glob('**/*', {
     cwd: componentRoot, // 以components中的所有文件为基准
     onlyFiles: true, // 只要文件类型
     absolute: true, // 使用绝对路径

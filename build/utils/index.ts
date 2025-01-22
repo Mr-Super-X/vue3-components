@@ -38,8 +38,11 @@ export const run = async (command: string) => {
  */
 export const pathRewriter = (format) => {
   return (id: string) => {
-    id = id.replaceAll('@cjp-cli-dev', `cjp-component/${format}`)
-
+    const reg = /@cjp-cli-dev\/vue3-components(-?)/g;
+    // 带-表示是工具包或其他包路径，不带表示组件包路径
+    // 输入@cjp-cli-dev/vue3-components/icon时输出cjp-components/${format}/components/icon
+    // 输入@cjp-cli-dev/vue3-components-utils/create时输出cjp-components/${format}/utils/create
+    id = id.replace(reg, (_, dash) => (dash ? `cjp-components/${format}/` : `cjp-components/${format}/components`));
     return id
   }
 }
