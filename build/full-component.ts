@@ -69,6 +69,8 @@ const buildEntry = async () => {
         format: conf.format, // 输出什么格式
         dir: conf.output.path, // 输出的目录
         paths: pathRewriter(conf.output.name), // 重写路径
+        // 解决打包警告：Entry module "/xxx/index.ts" is using named and default exports together. Consumers of your bundle will have to use `chunk.default` to access the default export, which may not be what you want. Use `output.exports: "named"` to disable this warning.
+        exports: 'named',
       }))
       .map(output => bundle.write(output as OutputOptions))
   )

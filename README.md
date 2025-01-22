@@ -33,7 +33,7 @@
 - lib
 - theme
 
-最终发布到npm上的模块就是dist模块。
+entry和types中的文件最后会分别拷贝到对应的es/lib模块下，最终发布到npm上的模块就是dist模块。
 
 ## packages/cjp-components
 

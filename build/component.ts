@@ -21,7 +21,7 @@ const buildEachComponent = async () => {
     onlyDirectories: true, // 只匹配文件夹
   })
 
-  // 将packages/components下的所有组件分别放到 dist/es/component/ 下和 dist/lib/components 下
+  // 将packages/components下的所有组件分别放到 dist/es/components/ 下和 dist/lib/components 下
   const builds = files.map(async (file: string) => {
     // 拿到每个组件的入口
     const entry = path.resolve(componentRoot, file, 'index.ts')
@@ -40,7 +40,9 @@ const buildEachComponent = async () => {
     const outputOptions = Object.values(buildConfig).map(conf => ({
       format: conf.format, // 输出什么格式
       file: path.resolve(conf.output.path, `components/${file}/index.js`), // 输出到目录的某个组件下的index.js
-      paths: pathRewriter(conf.output.name)
+      paths: pathRewriter(conf.output.name), // 重写路径
+      // 解决打包警告：Entry module "/xxx/index.ts" is using named and default exports together. Consumers of your bundle will have to use `chunk.default` to access the default export, which may not be what you want. Use `output.exports: "named"` to disable this warning.
+      exports: 'named',
     }))
 
     // 打包输出
@@ -57,8 +59,8 @@ const genTypes = async () => {
     compilerOptions: {
       allowJs: true, // 允许js
       declaration: true, // 要声明文件
-      emitDeclarationOnly: true, // 仅抛出声明
-      noEmitOnError: false, // 不抛出错误
+      emitDeclarationOnly: true, // 仅抛出声明，false会生成map文件
+      noEmitOnError: true, // 不抛出错误
       outDir: path.resolve(outDir, 'types'), // 输出目录 dist/types
       baseUrl: projectRoot, // 基础路径
       paths: { // 解析路径
@@ -107,6 +109,12 @@ const genTypes = async () => {
       sourceFiles.push(sourceFile)
     }
   }))
+
+  // 获取解析过程中的错误信息
+  const diagnostics = project.getPreEmitDiagnostics()
+
+  // 输出解析过程中的错误信息
+  console.log(project.formatDiagnosticsWithColorAndContext(diagnostics))
 
   // 生成声明文件.d.ts 默认是放到内存中的，需要手动写入文件
   await project.emit({
