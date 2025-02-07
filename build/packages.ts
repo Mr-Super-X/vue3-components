@@ -18,7 +18,7 @@ export const buildPackages = (dirPath: string, modelName: string) => {
     const output = path.resolve(dirPath, config.output.name) // 输出路径 传入的模块路径/配置的输出目录
 
     return series(
-      withTaskName(`构建：${modelName}模块 => ${output}`, () => {
+      withTaskName(`构建：${modelName}模块 => dist/${config.output.name}/${modelName}`, () => {
         // 将入口inputs匹配的.ts文件转换成js
         return src(inputs)
           .pipe(
@@ -30,7 +30,7 @@ export const buildPackages = (dirPath: string, modelName: string) => {
           ) // 调用gulp-typescript转换ts文件
           .pipe(dest(output)) // 输出到output
       }),
-      withTaskName(`拷贝：${modelName}模块 => ${config.output.path}`, () => {
+      withTaskName(`拷贝：${modelName}模块 => dist/${config.output.name}/${modelName}`, () => {
         // 将输出目录下的结果放到dist下 es => utils 和 lib => utils 中
         // 例如将utils打包结果拷贝到 dist/es/utils中
         return src(`${output}/**`).pipe(dest(path.resolve(config.output.path, modelName)))
